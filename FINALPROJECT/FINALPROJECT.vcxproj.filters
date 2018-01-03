@@ -95,4 +95,9 @@
   <ItemGroup>
     <Page Include="DirectXPage.xaml" />
   </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Assets\DNA.fbx">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+  </ItemGroup>
 </Project>

@@ -11,13 +11,10 @@ namespace FINALPROJECT
 	class FINALPROJECTMain : public DX::IDeviceNotify
 	{
 	public:
-		FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources);
+		FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker);
 		~FINALPROJECTMain();
 		void CreateWindowSizeDependentResources();
-		void StartTracking() { m_sceneRenderer->StartTracking(); }
 		void TrackingUpdate(float positionX) { m_pointerLocationX = positionX; }
-		void StopTracking() { m_sceneRenderer->StopTracking(); }
-		bool IsTracking() { return m_sceneRenderer->IsTracking(); }
 		void StartRenderLoop();
 		void StopRenderLoop();
 		Concurrency::critical_section& GetCriticalSection() { return m_criticalSection; }

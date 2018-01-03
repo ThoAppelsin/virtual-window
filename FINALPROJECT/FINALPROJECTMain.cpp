@@ -8,14 +8,14 @@ using namespace Windows::System::Threading;
 using namespace Concurrency;
 
 // Loads and initializes application assets when the application is loaded.
-FINALPROJECTMain::FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
+FINALPROJECTMain::FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker) :
 	m_deviceResources(deviceResources), m_pointerLocationX(0.0f)
 {
 	// Register to be notified if the Device is lost or recreated
 	m_deviceResources->RegisterDeviceNotify(this);
 
 	// TODO: Replace this with your app's content initialization.
-	m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
+	m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources, eyeTracker));
 
 	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 
@@ -82,7 +82,7 @@ void FINALPROJECTMain::Update()
 	{
 		// TODO: Replace this with your app's content update functions.
 		m_sceneRenderer->Update(m_timer);
-		m_fpsTextRenderer->Update(m_timer);
+		//m_fpsTextRenderer->Update(m_timer);
 	});
 }
 
@@ -90,7 +90,6 @@ void FINALPROJECTMain::Update()
 void FINALPROJECTMain::ProcessInput()
 {
 	// TODO: Add per frame input handling here.
-	m_sceneRenderer->TrackingUpdate(m_pointerLocationX);
 }
 
 // Renders the current frame according to the current application state.
@@ -120,7 +119,7 @@ bool FINALPROJECTMain::Render()
 	// Render the scene objects.
 	// TODO: Replace this with your app's content rendering functions.
 	m_sceneRenderer->Render();
-	m_fpsTextRenderer->Render();
+	//m_fpsTextRenderer->Render();
 
 	return true;
 }
