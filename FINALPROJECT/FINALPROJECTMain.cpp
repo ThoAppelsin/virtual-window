@@ -21,10 +21,10 @@ FINALPROJECTMain::FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& d
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
-	/*
+	
 	m_timer.SetFixedTimeStep(true);
-	m_timer.SetTargetElapsedSeconds(1.0 / 60);
-	*/
+	m_timer.SetTargetElapsedSeconds(1.0 / 40);
+	
 }
 
 FINALPROJECTMain::~FINALPROJECTMain()

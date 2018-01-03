@@ -36,7 +36,7 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 	m_deviceResources->GetD2DFactory()->GetDesktopDpi(&dpiX, &dpiY);
 
 	at = Vector3{ 0.0f, 0.0f,  0.0f };
-	to = Vector3{ 0.0f, 0.0f,  1.0f };
+	to = Vector3{ 0.0f, 0.0f,  -1.0f };
 	up = Vector3{ 0.0f, 1.0f,  0.0f };
 
 	Vector3 eyePosition(0.0f, 0.0f, 100.0f);
@@ -48,7 +48,7 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 {
 	// Eye tracking
-	Vector3 * eyePosition = NULL; // m_eyeTracker->GetEyePosition();
+	Vector3 * eyePosition = m_eyeTracker->GetEyePosition();
 	if (eyePosition != NULL)
 	{
 		MoveEye(eyePosition);
@@ -63,50 +63,25 @@ void Sample3DSceneRenderer::MoveEye(Vector3 * eyePosition)
 
 	// Change the perspective matrix accordingly
 	Size outputSize = m_deviceResources->GetOutputSize();
+	Matrix perspectiveMatrix;
 
-	/*Matrix perspectiveMatrix = Matrix::CreatePerspectiveOffCenter(
-		-outputSize.Width / 2 - X,
-		outputSize.Width / 2 - X,
-		-outputSize.Height / 2 - Y,
-		outputSize.Height / 2 - Y,
+	perspectiveMatrix = Matrix::CreatePerspectiveOffCenter(
+		-outputSize.Width  / 200 - X,
+		 outputSize.Width  / 200 - X,
+		-outputSize.Height / 200 - Y,
+		 outputSize.Height / 200 - Y,
 		Z,
 		Z + 100.0f
-	);*/
-
-	Matrix perspectiveMatrix = Matrix::CreatePerspectiveFieldOfView(
-		70.0f * XM_PI / 180.0f,
-		outputSize.Width / outputSize.Height,
-		0.01f,
-		100.0f
 	);
-	
-	/*
-	perspectiveMatrix = Matrix::CreatePerspective(
-		1000, // outputSize.Width / 100,
-		1000, // outputSize.Height / 100,
-		0.01f,
-		100.0f
-	);
-	*/
-	
 
 	Matrix orientationMatrix = m_deviceResources->GetOrientationTransform3D();
 	m_proj = perspectiveMatrix * orientationMatrix;
 
-	Vector3 eye(0.0f, 0.0f, 35.f);
-	Vector3 at(0.0f, -0.1f, 0.0f);
-
-	m_view = Matrix::CreateLookAt(eye, at, Vector3::UnitY);
-
-	/*
 	// Change the camera eye
-	eye = Vector3{ -X, Y, Z };
+	eye = Vector3{ X, Y, Z };
 
-	// XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
-	// XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookToRH(eye, to, up)));
-
-	m_view = Matrix::CreateLookAt(eye, at, Vector3::UnitY);
-	*/
+	m_view = Matrix::CreateLookAt(eye, eye + to, Vector3::UnitY);
+	// XMStoreFloat4x4(&m_view, XMMatrixLookToRH(eye, to, up));
 }
 
 // Renders one frame using the vertex and pixel shaders.
@@ -125,8 +100,8 @@ void Sample3DSceneRenderer::Render()
 	PIXBeginEvent(context, PIX_COLOR_DEFAULT, L"Draw model");
 	//const XMVECTORF32 scale = { 600.f, 600.f, 600.f };
 	//const XMVECTORF32 translate = { 0.f, 0.f, -40.f };
-	const XMVECTORF32 scale = { 30.f, 30.f, 30.f };
-	const XMVECTORF32 translate = { 0.f, 0.f, -8.f };
+	const XMVECTORF32 scale = { 15.f, 15.f, 15.f };
+	const XMVECTORF32 translate = { 0.f, 0.f, -5.f };
 	// rotate = Quaternion::CreateFromYawPitchRoll(XM_PI / 2.f, 0.f, -XM_PI / 2.f);
 	rotate = Quaternion::CreateFromYawPitchRoll(0.f, 0.f, 0.f);
 	local = m_world * XMMatrixTransformation(g_XMZero, Quaternion::Identity, scale, g_XMZero, rotate, translate);
