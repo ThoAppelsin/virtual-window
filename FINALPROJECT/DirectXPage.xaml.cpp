@@ -86,7 +86,7 @@ DirectXPage::DirectXPage():
 	EyeTracker^ eyeTracker = ref new EyeTracker(PreviewControl);// , m_main);
 	eyeTracker->InitializeAsync();
 
-	m_main = std::unique_ptr<FINALPROJECTMain>(new FINALPROJECTMain(m_deviceResources, eyeTracker));
+	m_main = std::unique_ptr<FINALPROJECTMain>(new FINALPROJECTMain(m_deviceResources, eyeTracker, SceneControl));
 	m_main->StartRenderLoop();
 }
 

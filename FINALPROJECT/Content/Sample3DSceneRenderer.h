@@ -11,19 +11,24 @@
 #include <Effects.h>
 #include <CommonStates.h>
 
+#include <SampleScene.h>
+#include <vector>
+
 namespace FINALPROJECT
 {
 	// This sample renderer instantiates a basic rendering pipeline.
 	class Sample3DSceneRenderer
 	{
 	public:
-		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker);
+		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
 		void ReleaseDeviceDependentResources();
 		void Update(DX::StepTimer const& timer);
 		void Render();
 		void MoveEye(Vector3 *);
+
+		std::vector<SampleScene> m_sampleScenes;
 
 
 	private:
@@ -51,9 +56,13 @@ namespace FINALPROJECT
 		Matrix m_view;
 		Matrix m_proj;
 
-		std::unique_ptr<CommonStates> m_states;
+		std::shared_ptr<CommonStates> m_states;
 		std::unique_ptr<IEffectFactory> m_fxFactory;
-		std::unique_ptr<Model> m_model;
+		
+		std::vector<std::shared_ptr<Model>> m_models;
+
+		// XAML control for scene selection
+		ComboBox^ m_sceneControl;
 	};
 }
 

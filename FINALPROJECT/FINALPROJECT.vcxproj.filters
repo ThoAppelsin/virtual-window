@@ -72,6 +72,7 @@
     <ClCompile Include="DirectXPage.xaml.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="EyeTracker.cpp" />
+    <ClCompile Include="SampleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.xaml.h" />
@@ -79,6 +80,7 @@
     <ClInclude Include="DirectXPage.xaml.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="EyeTracker.h" />
+    <ClInclude Include="SampleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">

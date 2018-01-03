@@ -10,10 +10,13 @@ using namespace DirectX;
 using namespace Windows::Foundation;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
-Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker) :
+Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl) :
 	m_loadingComplete(false),
 	m_deviceResources(deviceResources),
-	m_eyeTracker(eyeTracker)
+	m_eyeTracker(eyeTracker),
+	m_sampleScenes(),
+	m_models(),
+	m_sceneControl(sceneControl)
 {
 	CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
@@ -94,28 +97,33 @@ void Sample3DSceneRenderer::Render()
 	}
 
 	auto context = m_deviceResources->GetD3DDeviceContext();
-	XMMATRIX local;
-	XMVECTOR rotate;
 
 	PIXBeginEvent(context, PIX_COLOR_DEFAULT, L"Draw model");
-	//const XMVECTORF32 scale = { 600.f, 600.f, 600.f };
-	//const XMVECTORF32 translate = { 0.f, 0.f, -40.f };
-	const XMVECTORF32 scale = { 15.f, 15.f, 15.f };
-	const XMVECTORF32 translate = { 0.f, 0.f, -5.f };
-	// rotate = Quaternion::CreateFromYawPitchRoll(XM_PI / 2.f, 0.f, -XM_PI / 2.f);
-	rotate = Quaternion::CreateFromYawPitchRoll(0.f, 0.f, 0.f);
-	local = m_world * XMMatrixTransformation(g_XMZero, Quaternion::Identity, scale, g_XMZero, rotate, translate);
-	m_model->Draw(context, *m_states, local, m_view, m_proj);
+	m_sampleScenes[0].Draw(m_world, context, m_states, m_view, m_proj);
+
 	PIXEndEvent(context);
 }
 
 void Sample3DSceneRenderer::CreateDeviceDependentResources()
 {
 	auto device = m_deviceResources->GetD3DDevice();
-
-	m_states = std::make_unique<CommonStates>(device);
+	
+	m_states = std::make_shared<CommonStates>(device);
 	m_fxFactory = std::make_unique<DGSLEffectFactory>(device);
-	m_model = Model::CreateFromCMO(device, L"DNA.cmo", *m_fxFactory);
+
+	m_models.push_back(Model::CreateFromCMO(device, L"DNA.cmo", *m_fxFactory));
+
+	SampleScene sampleScene{ "DNA" };
+	sampleScene.AddModel(
+		m_models[0],
+		{ 15.f, 15.f, 15.f },
+		{  0.f,  0.f, -5.f },
+		Quaternion::CreateFromYawPitchRoll(0.f, 0.f, 0.f)
+		// Quaternion::CreateFromYawPitchRoll(XM_PI / 2.f, 0.f, -XM_PI / 2.f);
+	);
+	m_sampleScenes.push_back(sampleScene);
+	//m_sceneControl->Items->Append(ref new Platform::String(sampleScene.name.c_str()));
+	
 	m_loadingComplete = true;
 }
 

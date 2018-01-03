@@ -13,6 +13,7 @@ namespace Windows {
             namespace Controls {
                 ref class SwapChainPanel;
                 ref class CaptureElement;
+                ref class ComboBox;
             }
         }
     }
@@ -35,6 +36,7 @@ namespace FINALPROJECT
     
         private: ::Windows::UI::Xaml::Controls::SwapChainPanel^ swapChainPanel;
         private: ::Windows::UI::Xaml::Controls::CaptureElement^ PreviewControl;
+        private: ::Windows::UI::Xaml::Controls::ComboBox^ SceneControl;
     };
 }
 

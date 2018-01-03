@@ -11,7 +11,7 @@ namespace FINALPROJECT
 	class FINALPROJECTMain : public DX::IDeviceNotify
 	{
 	public:
-		FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker);
+		FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl);
 		~FINALPROJECTMain();
 		void CreateWindowSizeDependentResources();
 		void TrackingUpdate(float positionX) { m_pointerLocationX = positionX; }

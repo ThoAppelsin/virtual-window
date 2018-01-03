@@ -37,6 +37,11 @@ void ::FINALPROJECT::DirectXPage::Connect(int __connectionId, ::Platform::Object
                 this->PreviewControl = safe_cast<::Windows::UI::Xaml::Controls::CaptureElement^>(__target);
             }
             break;
+        case 3:
+            {
+                this->SceneControl = safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(__target);
+            }
+            break;
     }
     _contentLoaded = true;
 }
