@@ -9,6 +9,6 @@
 
     <SwapChainPanel x:Name="swapChainPanel">
         <CaptureElement x:Name="PreviewControl" Visibility="Collapsed"></CaptureElement>
-        <ComboBox x:Name="SceneControl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,100,0" Width="200"/>
+        <ComboBox x:Name="SceneControl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,100,0" Width="200" SelectionChanged="SceneControl_SelectionChanged"/>
     </SwapChainPanel>
 </Page>

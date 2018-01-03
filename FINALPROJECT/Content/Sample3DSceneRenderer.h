@@ -27,9 +27,7 @@ namespace FINALPROJECT
 		void Update(DX::StepTimer const& timer);
 		void Render();
 		void MoveEye(Vector3 *);
-
-		std::vector<SampleScene> m_sampleScenes;
-
+		void ChangeScene(size_t index);
 
 	private:
 		// Cached pointer to device resources.
@@ -60,6 +58,8 @@ namespace FINALPROJECT
 		std::unique_ptr<IEffectFactory> m_fxFactory;
 		
 		std::vector<std::shared_ptr<Model>> m_models;
+		std::vector<SampleScene> m_sampleScenes;
+		SampleScene * selectedScene;
 
 		// XAML control for scene selection
 		ComboBox^ m_sceneControl;

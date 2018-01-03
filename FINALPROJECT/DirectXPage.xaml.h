@@ -54,6 +54,9 @@ namespace FINALPROJECT
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::unique_ptr<FINALPROJECTMain> m_main; 
 		bool m_windowVisible;
+
+		// Scene control
+		void SceneControl_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
 	};
 }
 

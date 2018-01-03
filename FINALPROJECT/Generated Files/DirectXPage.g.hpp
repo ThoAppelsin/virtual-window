@@ -40,6 +40,8 @@ void ::FINALPROJECT::DirectXPage::Connect(int __connectionId, ::Platform::Object
         case 3:
             {
                 this->SceneControl = safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(__target);
+                (safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(this->SceneControl))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::FINALPROJECT::DirectXPage::*)
+                    (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&DirectXPage::SceneControl_SelectionChanged);
             }
             break;
     }

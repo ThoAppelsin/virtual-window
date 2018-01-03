@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SampleScene.h"
 
-SampleScene::SampleScene(std::string name) :
+SampleScene::SampleScene(std::wstring name) :
 	name(name),
 	sampleModels()
 {

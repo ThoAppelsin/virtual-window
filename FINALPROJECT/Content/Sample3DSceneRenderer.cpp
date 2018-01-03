@@ -16,7 +16,8 @@ Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceRes
 	m_eyeTracker(eyeTracker),
 	m_sampleScenes(),
 	m_models(),
-	m_sceneControl(sceneControl)
+	m_sceneControl(sceneControl),
+	selectedScene(nullptr)
 {
 	CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
@@ -87,6 +88,11 @@ void Sample3DSceneRenderer::MoveEye(Vector3 * eyePosition)
 	// XMStoreFloat4x4(&m_view, XMMatrixLookToRH(eye, to, up));
 }
 
+void FINALPROJECT::Sample3DSceneRenderer::ChangeScene(size_t index)
+{
+	selectedScene = &m_sampleScenes[index];
+}
+
 // Renders one frame using the vertex and pixel shaders.
 void Sample3DSceneRenderer::Render()
 {
@@ -99,7 +105,8 @@ void Sample3DSceneRenderer::Render()
 	auto context = m_deviceResources->GetD3DDeviceContext();
 
 	PIXBeginEvent(context, PIX_COLOR_DEFAULT, L"Draw model");
-	m_sampleScenes[0].Draw(m_world, context, m_states, m_view, m_proj);
+
+	selectedScene->Draw(m_world, context, m_states, m_view, m_proj);
 
 	PIXEndEvent(context);
 }
@@ -112,18 +119,33 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	m_fxFactory = std::make_unique<DGSLEffectFactory>(device);
 
 	m_models.push_back(Model::CreateFromCMO(device, L"DNA.cmo", *m_fxFactory));
+	m_models.push_back(Model::CreateFromCMO(device, L"TreeAndFlower.cmo", *m_fxFactory));
 
-	SampleScene sampleScene{ "DNA" };
-	sampleScene.AddModel(
+	// Scene with DNA
+	m_sampleScenes.emplace_back(L"DNA");
+	m_sampleScenes.back().AddModel(
 		m_models[0],
 		{ 15.f, 15.f, 15.f },
-		{  0.f,  0.f, -5.f },
+		{ 0.f,  0.f, -5.f },
 		Quaternion::CreateFromYawPitchRoll(0.f, 0.f, 0.f)
 		// Quaternion::CreateFromYawPitchRoll(XM_PI / 2.f, 0.f, -XM_PI / 2.f);
 	);
-	m_sampleScenes.push_back(sampleScene);
-	//m_sceneControl->Items->Append(ref new Platform::String(sampleScene.name.c_str()));
-	
+	m_sceneControl->Items->Append(ref new Platform::String(m_sampleScenes.back().name.c_str()));
+
+	// Scene with a Tree and a Flower
+	m_sampleScenes.emplace_back(L"Tree and Flower");
+	m_sampleScenes.back().AddModel(
+		m_models[1],
+		{ 15.f, 15.f, 15.f },
+		{ 0.f,  0.f, -15.f },
+		Quaternion::CreateFromYawPitchRoll(0.f, 0.f, 0.f)
+		// Quaternion::CreateFromYawPitchRoll(XM_PI / 2.f, 0.f, -XM_PI / 2.f);
+	);
+	m_sceneControl->Items->Append(ref new Platform::String(m_sampleScenes.back().name.c_str()));
+
+	m_sceneControl->SelectedIndex = 1;
+	selectedScene = &m_sampleScenes[1];
+
 	m_loadingComplete = true;
 }
 

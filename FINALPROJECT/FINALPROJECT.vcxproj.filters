@@ -101,5 +101,8 @@
     <MeshContentTask Include="Assets\DNA.fbx">
       <Filter>Assets</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\TreeAndFlower.fbx">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
   </ItemGroup>
 </Project>

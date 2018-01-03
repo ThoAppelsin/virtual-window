@@ -18,6 +18,7 @@ namespace FINALPROJECT
 		void StartRenderLoop();
 		void StopRenderLoop();
 		Concurrency::critical_section& GetCriticalSection() { return m_criticalSection; }
+		void ChangeScene(size_t index);
 
 		// IDeviceNotify
 		virtual void OnDeviceLost();

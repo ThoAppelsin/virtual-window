@@ -94,7 +94,7 @@ void EyeTracker::UpdateEyePosition(void)
 		create_task(t->faceDetector->DetectFacesAsync(bitmap)).then([t, bitmap](IVector<DetectedFace^>^ faces)
 		{
 			const float distanceFactor = 500.0f;
-			const float imagePlaneDistance = 25.0f;
+			const float imagePlaneDistance = 65.0f;
 			const float inchToCm = 2.54f;
 
 			if (faces->Size > 0)

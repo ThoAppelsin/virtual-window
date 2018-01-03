@@ -9,7 +9,7 @@
 
     <SwapChainPanel x:ConnectionId='1' x:Name="swapChainPanel">
         <CaptureElement x:ConnectionId='2' x:Name="PreviewControl" Visibility="Collapsed"></CaptureElement>
-        <ComboBox x:ConnectionId='3' x:Name="SceneControl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,100,0" Width="200"/>
+        <ComboBox x:ConnectionId='3' x:Name="SceneControl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,100,0" Width="200"                                                 />
     </SwapChainPanel>
 </Page>
 

@@ -72,6 +72,11 @@ void FINALPROJECTMain::StopRenderLoop()
 	m_renderLoopWorker->Cancel();
 }
 
+void FINALPROJECT::FINALPROJECTMain::ChangeScene(size_t index)
+{
+	if (m_sceneRenderer)	m_sceneRenderer->ChangeScene(index);
+}
+
 // Updates the application state once per frame.
 void FINALPROJECTMain::Update() 
 {

@@ -194,3 +194,9 @@ void DirectXPage::OnSwapChainPanelSizeChanged(Object^ sender, SizeChangedEventAr
 	m_deviceResources->SetLogicalSize(e->NewSize);
 	m_main->CreateWindowSizeDependentResources();
 }
+
+
+void FINALPROJECT::DirectXPage::SceneControl_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e)
+{
+	if (m_main)	m_main->ChangeScene(((ComboBox^)sender)->SelectedIndex);
+}
