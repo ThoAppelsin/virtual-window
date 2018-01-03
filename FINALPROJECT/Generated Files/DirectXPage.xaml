@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <SwapChainPanel x:Name="swapChainPanel">
-        <CaptureElement x:Name="PreviewControl" Visibility="Collapsed"></CaptureElement>
+    <SwapChainPanel x:ConnectionId='1' x:Name="swapChainPanel">
+        <CaptureElement x:ConnectionId='2' x:Name="PreviewControl" Visibility="Collapsed"></CaptureElement>
     </SwapChainPanel>
 </Page>
+

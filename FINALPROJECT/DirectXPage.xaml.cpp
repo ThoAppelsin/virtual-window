@@ -6,6 +6,8 @@
 #include "pch.h"
 #include "DirectXPage.xaml.h"
 
+#include "EyeTracker.h"
+
 using namespace FINALPROJECT;
 
 using namespace Platform;
@@ -79,6 +81,10 @@ DirectXPage::DirectXPage():
 
 	// Run task on a dedicated high priority background thread.
 	m_inputLoopWorker = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
+
+	// Tracks the eye
+	EyeTracker^ eyeTracker = ref new EyeTracker(PreviewControl);// , m_main);
+	eyeTracker->InitializeAsync();
 
 	m_main = std::unique_ptr<FINALPROJECTMain>(new FINALPROJECTMain(m_deviceResources));
 	m_main->StartRenderLoop();
