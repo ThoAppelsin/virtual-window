@@ -76,13 +76,14 @@ Vector3 * EyeTracker::GetEyePosition(int offset)
 Vector3 EyeTracker::EstimateEyePosition(int depth)
 {
 	Vector3 estimation;
+	Vector3 currentPosition = *GetEyePosition(0);
 
 	for (int i = 1; i <= depth; i++)
 	{
-		estimation += (2 * *GetEyePosition(0) - *GetEyePosition(-i)) / (float)i;
+		estimation += (currentPosition - *GetEyePosition(-i)) / (float)i;
 	}
 
-	return estimation / (float)depth;
+	return currentPosition + (Vector3) (estimation / (float)depth);
 }
 
 void EyeTracker::UpdateEyePosition(void)
@@ -94,7 +95,7 @@ void EyeTracker::UpdateEyePosition(void)
 		create_task(t->faceDetector->DetectFacesAsync(bitmap)).then([t, bitmap](IVector<DetectedFace^>^ faces)
 		{
 			const float distanceFactor = 500.0f;
-			const float imagePlaneDistance = 65.0f;
+			const float imagePlaneDistance = 45.0f;
 			const float inchToCm = 2.54f;
 
 			if (faces->Size > 0)
@@ -117,15 +118,24 @@ void EyeTracker::UpdateEyePosition(void)
 
 				Vector3 newEye (
 					(imageWidth * 0.5f - x - width * 0.5f) / imagePlaneDistance * distance,
-					(imageHeight * 0.5f - y - height * 0.2f) / imagePlaneDistance * distance,
+					(imageHeight * 0.5f - y - height * (0.4f + 0.7f)) / imagePlaneDistance * distance,
 					distance
 				);
 
-				*t->GetEyePosition(1) =
-					0.5 * newEye + 0.5 * *t->GetEyePosition(0);
-					// (t->EstimateEyePosition(1) + newEye) / 2;
-					// (2 * *t->GetEyePosition(0) - *t->GetEyePosition(-1) + newEye) / 2;
+				Vector3 estimatedNewEye = t->EstimateEyePosition(8);
+
 				t->currEyePositionIndex = (t->currEyePositionIndex + 1) % t->eyePositions.size();
+
+				*t->GetEyePosition(0) =
+					0.1 * newEye +
+					0.08 * *t->GetEyePosition(-1) +
+					0.07 * *t->GetEyePosition(-2) +
+					0.06 * *t->GetEyePosition(-3) +
+					0.05 * *t->GetEyePosition(-4) +
+					0.04 * *t->GetEyePosition(-5) +
+					0.6 * estimatedNewEye;
+					// 0.4f * t->EstimateEyePosition(1) + 0.6f * newEye;
+					// (2 * *t->GetEyePosition(0) - *t->GetEyePosition(-1) + newEye) / 2;
 
 				t->newEyePosition = true;
 			}

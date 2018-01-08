@@ -1,5 +1,9 @@
 #pragma once
 
+#include <Model.h>
+
+using namespace DirectX;
+
 class SampleScene
 {
 public:

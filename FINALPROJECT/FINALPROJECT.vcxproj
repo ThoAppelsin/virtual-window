@@ -260,8 +260,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Assets\DNA.fbx" />
-    <MeshContentTask Include="Assets\TreeAndFlower.fbx" />
+    <MeshContentTask Include="Assets\Cube.fbx" />
+    <MeshContentTask Include="Assets\HillyLandscape.fbx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

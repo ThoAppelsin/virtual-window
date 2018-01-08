@@ -11,7 +11,6 @@ using namespace Windows::UI::Xaml::Controls;
 
 using namespace Windows::Foundation;
 
-using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
 ref class EyeTracker sealed

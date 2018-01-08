@@ -98,10 +98,10 @@
     <Page Include="DirectXPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Assets\DNA.fbx">
+    <MeshContentTask Include="Assets\HillyLandscape.fbx">
       <Filter>Assets</Filter>
     </MeshContentTask>
-    <MeshContentTask Include="Assets\TreeAndFlower.fbx">
+    <MeshContentTask Include="Assets\Cube.fbx">
       <Filter>Assets</Filter>
     </MeshContentTask>
   </ItemGroup>
