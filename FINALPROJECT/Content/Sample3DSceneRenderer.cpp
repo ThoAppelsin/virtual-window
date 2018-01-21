@@ -53,7 +53,7 @@ void Sample3DSceneRenderer::MoveEye(Vector3 * eyePosition)
 	Size outputSize = m_deviceResources->GetOutputSize();
 
 	float X = eyePosition->x / 2.54f * dpiX / 100;
-	float Y = (eyePosition->y / 2.54f * dpiY + outputSize.Height / 2) / 100;
+	float Y = eyePosition->y / 2.54f * dpiY / 100;
 	float Z = eyePosition->z / 2.54f * (dpiX + dpiY) / 2 / 100;
 
 	// Change the perspective matrix accordingly
