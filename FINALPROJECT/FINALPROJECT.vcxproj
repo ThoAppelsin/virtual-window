@@ -102,6 +102,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <PackageCertificateKeyFile>FINALPROJECT_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>6390832F132D4BB8FB710C661C8619FBA0AE183C</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>

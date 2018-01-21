@@ -96,14 +96,13 @@ void EyeTracker::UpdateEyePosition(void)
 		{
 			const float distanceFactor = 500.0f;
 			const float imagePlaneDistance = 45.0f;
-			const float inchToCm = 2.54f;
 
 			if (faces->Size > 0)
 			{
 				BitmapBounds bounds = faces->GetAt(0)->FaceBox;
 
-				float xScale = inchToCm / (float)bitmap->DpiX;
-				float yScale = inchToCm / (float)bitmap->DpiY;
+				float xScale = 1.0f / (float)bitmap->DpiX;
+				float yScale = 1.0f / (float)bitmap->DpiY;
 
 				float x = bounds.X * xScale;
 				float y = bounds.Y * yScale;
@@ -116,9 +115,12 @@ void EyeTracker::UpdateEyePosition(void)
 				float imageWidth = bitmap->PixelWidth * xScale;
 				float imageHeight = bitmap->PixelHeight * yScale;
 
+				x += width * 0.5f;
+				y += height * 0.35f;
+
 				Vector3 newEye (
-					(imageWidth * 0.5f - x - width * 0.5f) / imagePlaneDistance * distance,
-					(imageHeight * 0.5f - y - height * (0.4f + 0.7f)) / imagePlaneDistance * distance,
+					(imageWidth  * 0.5f - x) / imagePlaneDistance * distance,
+					(imageHeight * 0.5f - y) / imagePlaneDistance * distance,
 					distance
 				);
 
@@ -127,13 +129,13 @@ void EyeTracker::UpdateEyePosition(void)
 				t->currEyePositionIndex = (t->currEyePositionIndex + 1) % t->eyePositions.size();
 
 				*t->GetEyePosition(0) =
-					0.1 * newEye +
-					0.08 * *t->GetEyePosition(-1) +
-					0.07 * *t->GetEyePosition(-2) +
-					0.06 * *t->GetEyePosition(-3) +
-					0.05 * *t->GetEyePosition(-4) +
-					0.04 * *t->GetEyePosition(-5) +
-					0.6 * estimatedNewEye;
+					0.1f * newEye +
+					0.08f * *t->GetEyePosition(-1) +
+					0.07f * *t->GetEyePosition(-2) +
+					0.06f * *t->GetEyePosition(-3) +
+					0.05f * *t->GetEyePosition(-4) +
+					0.04f * *t->GetEyePosition(-5) +
+					0.6f * estimatedNewEye;
 					// 0.4f * t->EstimateEyePosition(1) + 0.6f * newEye;
 					// (2 * *t->GetEyePosition(0) - *t->GetEyePosition(-1) + newEye) / 2;
 

@@ -52,9 +52,12 @@ void Sample3DSceneRenderer::MoveEye(Vector3 * eyePosition)
 {
 	Size outputSize = m_deviceResources->GetOutputSize();
 
-	float X = eyePosition->x / 2.54f * dpiX / 100;
-	float Y = eyePosition->y / 2.54f * dpiY / 100;
-	float Z = eyePosition->z / 2.54f * (dpiX + dpiY) / 2 / 100;
+	float X = eyePosition->x * dpiX / 100;
+	float Y = eyePosition->y * dpiY / 100;
+	float Z = eyePosition->z * (dpiX + dpiY) / 2 / 100;
+
+	// Compensation for camera position
+	Y += outputSize.Height / 200;
 
 	// Change the perspective matrix accordingly
 	Matrix perspectiveMatrix;
@@ -115,7 +118,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	m_sampleScenes.emplace_back(L"Hilly Landscape");
 	m_sampleScenes.back().AddModel(
 		m_models[0],
-		{ 200.f, 200.f, 200.f },
+		{ 150.f, 150.f, 150.f },
 		{ -20.f, -50.f, -250.f },
 		Quaternion::CreateFromYawPitchRoll(XM_PI / 10.f, 0.f, 0.f)
 	);
