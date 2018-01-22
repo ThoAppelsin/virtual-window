@@ -1,7 +1,9 @@
-Virtual Window was a project where I prepared a 3D computer graphics application for Universal Windows Platform
-using DirectX 11 and DirectXTK. Unlike a traditional 3D computer graphics application, this application allows
-the viewer to move their heads to view and observe the content behind the screen, as if they were looking through a
-window of their room.
+Virtual Window project is about making the 3D computer graphics applications more realisticly three dimensional.
+It demonstrates the idea of projecting the 3D world behind onto screen with respect to the viewer's position,
+on a Universal Windows Platform application written in C++ using DirectX 11 and DirectXTK.
+
+Before I had started to this project, my aim was to turn my computer screen into a window to the virtual
+world behind, hence I chose the name *Virtual Window* for the project.
 
 ## Overview
 
@@ -9,12 +11,22 @@ Today's computer screens are usually flat, and limited to displaying us a plane 
 However, with just a simple 3D perspective projection of a modelled 3D world,
 we can create the illusion of a 3D world behind the screen.
 
-On the other hand, this illusion can easily be falsified through some simple testing, like:
+On the other hand, we can easily see through this illusion, and find out that what we see is just a projection.
+How? Try:
 
 1) closing one of our eyes and then the other, or
 2) moving our heads up and down, left and right.
 
-The image on your computer screen will likely remain indifferent to those, and you will then immediately realize
+What you see on your computer screen will likely not change when you do those.
+There are some technologies that allows you to see different images with your both eyes,
+some of them even without special glasses. With or without glasses, they always require a special screen,
+but then make it possible for an application to pass the first test. This project is not about the first test.
+
+Virtual Window aims to let the 3D applications pass the second test, with the only special equipment being
+a front-facing camera attached to the screen.
+
+
+indifferent to those, and you will then immediately realize
 that what you see on the screen is just a projection. For a better illusion of 3D on our 2D screens,
 we will need to come up with technical improvements to how we make our 3D projections, so that the consumers
 will have a harder time to realize that it is just a projection, and therefore be more immersed.
