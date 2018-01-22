@@ -22,18 +22,27 @@ There are some technologies that allows you to see different images with your bo
 some of them even without special glasses. With or without glasses, they always require a special screen,
 but then make it possible for an application to pass the first test. This project is not about the first test.
 
-Virtual Window aims to let the 3D applications pass the second test, with the only special equipment being
-a front-facing camera attached to the screen.
-
-
-indifferent to those, and you will then immediately realize
-that what you see on the screen is just a projection. For a better illusion of 3D on our 2D screens,
-we will need to come up with technical improvements to how we make our 3D projections, so that the consumers
-will have a harder time to realize that it is just a projection, and therefore be more immersed.
-
-Virtual Window aims towards the second one of those two tests above. The demonstrating application
-presented in this repository, displays a 3D world to the user that is projected onto the screen
-with regards to the viewer's position relative to the screen. The end result is closer to what would
-happen in reality, if our computer screens were a window.
+Virtual Window aims to let the 3D applications pass the second test.
+The world behind is projected with respect to the viewer's position, so it becomes harder
+for the viewer to realize that it is just a projection, and the experience is more realistic and immersive.
+Finally, we can and we do this only by using a single front-facing camera.
 
 ## Motivation
+
+This idea to make the 3D projection responsive to my movements against the screen as a viewer
+came to me when I was taking the introductory course to computer graphics. I grew more passionate about the idea
+as I remembered how I was trying to see down below by moving my head up close to the screen when I was
+playing an old 3D game as a child.
+
+I was wondering how come nobody had ever thought of this before, but also was sure that nobody hasn't,
+since otherwise there would definitely be at least some games or applications that I would have heard of using
+this technique to provide more immersive experience to their users. Thinking that I was onto something
+novel, I had worked on this project fully motivated for weeks.
+
+I am glad that it was after I have finished preparing my demonstrating application,
+when I found out that other people had already done this before. It was still disappointing,
+but would also be demotivating if I were to discover this when my project was half-done.
+
+
+
+
