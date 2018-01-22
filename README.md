@@ -60,7 +60,17 @@ The parameter is not immediately the focal length in any dimensions, but rather 
 Its decrease will make the application more sensitive to your head movements along the parallel plane,
 and the opposite will happen as it increases. Change and adjust it accordingly.
 
+If the camera of your device is somewhere different than the top-center of your screen, then you will
+also have to make a small change for that. Inside `MoveEye` function within `Sample3DSceneRenderer.cpp`,
+you will have to change [the line where I increase the `Y`](https://github.com/ThoAppelsin/virtual-window/blob/032e6c1e63d0b4969cc37bec4993a6033385a354/FINALPROJECT/Content/Sample3DSceneRenderer.cpp#L60)
+by half the hundredth of of `outputSize.Height`. Depending on where your camera is, increase or decrease the
+`X` and/or `Y` by a fraction of the hundredth of `outputSize.Width` and/or `outputSize.Height`, respectively.
+For example, if your camera is at the bottom right corner of your screen, you should have something like the following:
 
+```cpp
+// Compensation for camera position
+X += outputSize.Width  / 200;
+Y -= outputSize.Height / 200;
+```
 
-
-
+If you think that there is a problem with the head size assumption, you can play with the [`distanceFactor`](https://github.com/ThoAppelsin/virtual-window/blob/032e6c1e63d0b4969cc37bec4993a6033385a354/FINALPROJECT/EyeTracker.cpp#L97) right above the `imagePlaneDistance`, which we have previously adjusted for the focal length.
