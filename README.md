@@ -43,6 +43,24 @@ I am glad that it was after I have finished preparing my demonstrating applicati
 when I found out that other people had already done this before. It was still disappointing,
 but would also be demotivating if I were to discover this when my project was half-done.
 
+## Shortcomings
+
+There are a couple of device-dependent parameters that I have hard-coded, which are the major shortcomings of this application.
+Those are:
+
+1) the focal length, and
+2) the position of the camera.
+
+I have configured them to work with a Surface Pro 4. On top of those, it also has been calibrated to my head size.
+The difference in the head size should not be that so significant, however.
+
+To change the application to suit your device, adjust the [`imagePlaneDistance`](https://github.com/ThoAppelsin/virtual-window/blob/5dceadd448920787f5465f2ff0065c8ce417369c/FINALPROJECT/EyeTracker.cpp#L98)
+parameter in the `EyeDetector::UpdateEyePosition(void)` within `EyeDetector.cpp`.
+The parameter is not immediately the focal length in any dimensions, but rather a convenient measure.
+Its decrease will make the application more sensitive to your head movements along the parallel plane,
+and the opposite will happen as it increases. Change and adjust it accordingly.
+
+
 
 
 
