@@ -18,6 +18,7 @@ ref class EyeTracker sealed
 internal:
 	EyeTracker(CaptureElement^ previewControl);
 	Vector3 * GetEyePosition(void);
+	float maxEyeDelta[3];
 
 public:
 	void InitializeAsync(void);
@@ -25,7 +26,8 @@ public:
 private:
 	void UpdateEyePosition(void);
 	Vector3 * GetEyePosition(int);
-	Vector3 EstimateEyePosition(int);
+	Vector3 TrajectoryEyePosition(int);
+	Vector3 RandomWalkEyePosition(int);
 		
 	CaptureElement^ previewControl;
 	Platform::Agile<MediaCapture> mediaCapture;

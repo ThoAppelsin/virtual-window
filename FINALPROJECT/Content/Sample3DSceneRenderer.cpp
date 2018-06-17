@@ -122,8 +122,8 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	m_sampleScenes.back().AddModel(
 		m_models[0],
 		new XMVECTORF32{ 150.f, 150.f, 150.f },
-		new XMVECTORF32{ -20.f, -50.f, -150.f },
-		Quaternion::CreateFromYawPitchRoll(XM_PI / 10.f, 0.f, 0.f)
+		new XMVECTORF32{ -20.f, -60.f, -450.f },
+		Quaternion::CreateFromYawPitchRoll(XM_PI / 10.f, -XM_PI / 20.f, 0.f)
 	);
 	m_sceneControl->Items->Append(ref new Platform::String(m_sampleScenes.back().name.c_str()));
 

@@ -21,6 +21,7 @@ EyeTracker::EyeTracker(CaptureElement^ previewControl)
 	, newEyePosition(false)
 	, currEyePositionIndex(0)
 	, eyePositions(eyePBufSiz)
+	, maxEyeDelta()
 {
 }
 
@@ -73,7 +74,7 @@ Vector3 * EyeTracker::GetEyePosition(int offset)
 	return &eyePositions[index];
 }
 
-Vector3 EyeTracker::EstimateEyePosition(int depth)
+Vector3 EyeTracker::TrajectoryEyePosition(int depth)
 {
 	Vector3 estimation;
 	Vector3 currentPosition = *GetEyePosition(0);
@@ -83,7 +84,19 @@ Vector3 EyeTracker::EstimateEyePosition(int depth)
 		estimation += (currentPosition - *GetEyePosition(-i)) / (float)i;
 	}
 
-	return currentPosition + (Vector3) (estimation / (float)depth);
+	return currentPosition + (Vector3)(estimation / (float)depth);
+}
+
+Vector3 EyeTracker::RandomWalkEyePosition(int depth)
+{
+	Vector3 estimation;
+
+	for (int i = 0; i < depth; i++)
+	{
+		estimation += *GetEyePosition(-i) * (float)(depth - i);
+	}
+
+	return estimation * 2 / (float)(depth * (depth - 1));
 }
 
 void EyeTracker::UpdateEyePosition(void)
@@ -124,20 +137,51 @@ void EyeTracker::UpdateEyePosition(void)
 					distance
 				);
 
-				Vector3 estimatedNewEye = t->EstimateEyePosition(8);
+				float eyeDelta[3] = {
+					abs(newEye.x - t->GetEyePosition(0)->x),
+					abs(newEye.y - t->GetEyePosition(0)->y),
+					abs(newEye.z - t->GetEyePosition(0)->z)
+				};
+
+				float deltaSeverity[3] = {};
+
+				// Update maxEyeDelta
+				// Gather deltaSeverity
+				for (int i = 0; i < 3; i++) {
+					if (t->maxEyeDelta[i] < eyeDelta[i]) {
+						t->maxEyeDelta[i] = eyeDelta[i];
+					}
+
+					deltaSeverity[i] = eyeDelta[i] / t->maxEyeDelta[i];
+				}
+
+				Vector3 trajectoryEye = t->TrajectoryEyePosition(8);
+				Vector3 randomWalkEye = t->RandomWalkEyePosition(4);
 
 				t->currEyePositionIndex = (t->currEyePositionIndex + 1) % t->eyePositions.size();
 
+				//*t->GetEyePosition(0) =
+				//	0.3f * newEye +
+				//	0.06f * *t->GetEyePosition(-1) +
+				//	0.05f * *t->GetEyePosition(-2) +
+				//	0.04f * *t->GetEyePosition(-3) +
+				//	0.03f * *t->GetEyePosition(-4) +
+				//	0.52f * estimatedNewEye;
+				//	// 0.4f * t->EstimateEyePosition(1) + 0.6f * newEye;
+				//	// (2 * *t->GetEyePosition(0) - *t->GetEyePosition(-1) + newEye) / 2;
+				
 				*t->GetEyePosition(0) =
-					0.1f * newEye +
-					0.08f * *t->GetEyePosition(-1) +
-					0.07f * *t->GetEyePosition(-2) +
-					0.06f * *t->GetEyePosition(-3) +
-					0.05f * *t->GetEyePosition(-4) +
-					0.04f * *t->GetEyePosition(-5) +
-					0.6f * estimatedNewEye;
-					// 0.4f * t->EstimateEyePosition(1) + 0.6f * newEye;
-					// (2 * *t->GetEyePosition(0) - *t->GetEyePosition(-1) + newEye) / 2;
+					0.3f * newEye +
+					0.2f * randomWalkEye +
+					0.5f * trajectoryEye;
+
+				/*Vector3 estimateEye = 0.25f * randomWalkEye + 0.75f * trajectoryEye;
+
+				*t->GetEyePosition(0) = Vector3{
+					(1.0f - deltaSeverity[0]) * estimateEye.x + deltaSeverity[0] * newEye.x,
+					(1.0f - deltaSeverity[1]) * estimateEye.y + deltaSeverity[1] * newEye.y,
+					(1.0f - deltaSeverity[2]) * estimateEye.z + deltaSeverity[2] * newEye.z
+				};*/
 
 				t->newEyePosition = true;
 			}
