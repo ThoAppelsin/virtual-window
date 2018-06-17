@@ -6,6 +6,9 @@
 //------------------------------------------------------------------------------
 #include "pch.h"
 
+#pragma warning(push)
+#pragma warning(disable: 4100) // unreferenced formal parameter
+
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BINDING_DEBUG_OUTPUT
 extern "C" __declspec(dllimport) int __stdcall IsDebuggerPresent();
 #endif
@@ -27,23 +30,39 @@ void ::FINALPROJECT::DirectXPage::Connect(int __connectionId, ::Platform::Object
 {
     switch (__connectionId)
     {
-        case 1:
-            {
-                this->swapChainPanel = safe_cast<::Windows::UI::Xaml::Controls::SwapChainPanel^>(__target);
-            }
-            break;
-        case 2:
-            {
-                this->PreviewControl = safe_cast<::Windows::UI::Xaml::Controls::CaptureElement^>(__target);
-            }
-            break;
-        case 3:
-            {
-                this->SceneControl = safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(__target);
-                (safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(this->SceneControl))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::FINALPROJECT::DirectXPage::*)
-                    (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&DirectXPage::SceneControl_SelectionChanged);
-            }
-            break;
+    case 2:
+        {
+            this->swapChainPanel = safe_cast<::Windows::UI::Xaml::Controls::SwapChainPanel^>(__target);
+        }
+        break;
+    case 3:
+        {
+            this->PreviewControl = safe_cast<::Windows::UI::Xaml::Controls::CaptureElement^>(__target);
+        }
+        break;
+    case 4:
+        {
+            this->SceneControl = safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(this->SceneControl))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::FINALPROJECT::DirectXPage::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&DirectXPage::SceneControl_SelectionChanged);
+        }
+        break;
+    case 5:
+        {
+            this->RestartButton = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->RestartButton))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::FINALPROJECT::DirectXPage::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&DirectXPage::Restart_Button_Click);
+        }
+        break;
+    case 6:
+        {
+            this->StartStopButton = safe_cast<::Windows::UI::Xaml::Controls::Primitives::ToggleButton^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Primitives::ToggleButton^>(this->StartStopButton))->Checked += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::FINALPROJECT::DirectXPage::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&DirectXPage::StartStop_Button_Checked);
+            (safe_cast<::Windows::UI::Xaml::Controls::Primitives::ToggleButton^>(this->StartStopButton))->Unchecked += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::FINALPROJECT::DirectXPage::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&DirectXPage::StartStop_Button_Unchecked);
+        }
+        break;
     }
     _contentLoaded = true;
 }
@@ -54,5 +73,7 @@ void ::FINALPROJECT::DirectXPage::Connect(int __connectionId, ::Platform::Object
     __target;               // unreferenced
     return nullptr;
 }
+
+#pragma warning(pop)
 
 

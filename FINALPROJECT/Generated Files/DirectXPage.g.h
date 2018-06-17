@@ -14,6 +14,18 @@ namespace Windows {
                 ref class SwapChainPanel;
                 ref class CaptureElement;
                 ref class ComboBox;
+                ref class Button;
+            }
+        }
+    }
+}
+namespace Windows {
+    namespace UI {
+        namespace Xaml {
+            namespace Controls {
+                namespace Primitives {
+                    ref class ToggleButton;
+                }
             }
         }
     }
@@ -32,11 +44,18 @@ namespace FINALPROJECT
         virtual ::Windows::UI::Xaml::Markup::IComponentConnector^ GetBindingConnector(int connectionId, ::Platform::Object^ target);
     
     private:
+        void UnloadObject(::Windows::UI::Xaml::DependencyObject^ dependencyObject);
+        void DisconnectUnloadedObject(int connectionId);
+    
+    private:
         bool _contentLoaded;
+    
     
         private: ::Windows::UI::Xaml::Controls::SwapChainPanel^ swapChainPanel;
         private: ::Windows::UI::Xaml::Controls::CaptureElement^ PreviewControl;
         private: ::Windows::UI::Xaml::Controls::ComboBox^ SceneControl;
+        private: ::Windows::UI::Xaml::Controls::Button^ RestartButton;
+        private: ::Windows::UI::Xaml::Controls::Primitives::ToggleButton^ StartStopButton;
     };
 }
 

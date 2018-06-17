@@ -10,13 +10,14 @@ using namespace DirectX;
 using namespace Windows::Foundation;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
-Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl) :
+Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl, Button^ restartButton) :
 	m_loadingComplete(false),
 	m_deviceResources(deviceResources),
 	m_eyeTracker(eyeTracker),
 	m_sampleScenes(),
 	m_models(),
 	m_sceneControl(sceneControl),
+	m_restartButton(restartButton),
 	selectedScene(nullptr)
 {
 	CreateDeviceDependentResources();
@@ -38,13 +39,15 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 }
 
 // Called once per frame, rotates the cube and calculates the model and view matrices.
-void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
+void Sample3DSceneRenderer::Update(DX::StepTimer const& timer, bool eyeTrackingEnabled)
 {
 	// Eye tracking
-	Vector3 * eyePosition = m_eyeTracker->GetEyePosition();
-	if (eyePosition != NULL)
-	{
-		MoveEye(eyePosition);
+	if (eyeTrackingEnabled) {
+		Vector3 * eyePosition = m_eyeTracker->GetEyePosition();
+		if (eyePosition != NULL)
+		{
+			MoveEye(eyePosition);
+		}
 	}
 }
 
@@ -118,8 +121,8 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	m_sampleScenes.emplace_back(L"Hilly Landscape");
 	m_sampleScenes.back().AddModel(
 		m_models[0],
-		{ 150.f, 150.f, 150.f },
-		{ -20.f, -50.f, -250.f },
+		new XMVECTORF32{ 150.f, 150.f, 150.f },
+		new XMVECTORF32{ -20.f, -50.f, -150.f },
 		Quaternion::CreateFromYawPitchRoll(XM_PI / 10.f, 0.f, 0.f)
 	);
 	m_sceneControl->Items->Append(ref new Platform::String(m_sampleScenes.back().name.c_str()));
@@ -128,8 +131,8 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 	m_sampleScenes.emplace_back(L"Cube");
 	m_sampleScenes.back().AddModel(
 		m_models[1],
-		{ 18.f, 18.f, 18.f },
-		{ 0.f,  0.f, -6.f },
+		new XMVECTORF32{ 18.f, 18.f, 18.f },
+		new XMVECTORF32{ 0.f,  0.f, -6.f },
 		Quaternion::CreateFromYawPitchRoll(0.f, 0.f, 0.f)
 	);
 	m_sceneControl->Items->Append(ref new Platform::String(m_sampleScenes.back().name.c_str()));

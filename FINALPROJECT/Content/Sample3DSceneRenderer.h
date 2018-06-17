@@ -14,17 +14,19 @@
 #include <SampleScene.h>
 #include <vector>
 
+using namespace Windows::UI::Xaml::Controls::Primitives;
+
 namespace FINALPROJECT
 {
 	// This sample renderer instantiates a basic rendering pipeline.
 	class Sample3DSceneRenderer
 	{
 	public:
-		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl);
+		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl, Button^ restartButton);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
 		void ReleaseDeviceDependentResources();
-		void Update(DX::StepTimer const& timer);
+		void Update(DX::StepTimer const& timer, bool eyeTrackingEnabled);
 		void Render();
 		void MoveEye(Vector3 *);
 		void ChangeScene(size_t index);
@@ -61,8 +63,9 @@ namespace FINALPROJECT
 		std::vector<SampleScene> m_sampleScenes;
 		SampleScene * selectedScene;
 
-		// XAML control for scene selection
+		// XAML controls
 		ComboBox^ m_sceneControl;
+		Button^ m_restartButton;
 	};
 }
 

@@ -9,6 +9,8 @@
 
     <SwapChainPanel x:Name="swapChainPanel">
         <CaptureElement x:Name="PreviewControl" Visibility="Collapsed"></CaptureElement>
-        <ComboBox x:Name="SceneControl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,100,0" Width="200" SelectionChanged="SceneControl_SelectionChanged"/>
+        <ComboBox x:Name="SceneControl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,100,100,0" Width="200" SelectionChanged="SceneControl_SelectionChanged"/>
+        <Button x:Name="RestartButton" Content="Restart" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,210,0" Width="90" Click="Restart_Button_Click"/>
+        <ToggleButton x:Name="StartStopButton" Content="Start/Stop" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,100,0" Width="90" Checked="StartStop_Button_Checked" Unchecked="StartStop_Button_Unchecked" IsChecked="True"/>
     </SwapChainPanel>
 </Page>

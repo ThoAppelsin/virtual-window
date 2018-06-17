@@ -7,9 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <SwapChainPanel x:ConnectionId='1' x:Name="swapChainPanel">
-        <CaptureElement x:ConnectionId='2' x:Name="PreviewControl" Visibility="Collapsed"></CaptureElement>
-        <ComboBox x:ConnectionId='3' x:Name="SceneControl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,100,0" Width="200"                                                 />
+    <SwapChainPanel x:ConnectionId='2' x:Name="swapChainPanel">
+        <CaptureElement x:ConnectionId='3' x:Name="PreviewControl" Visibility="Collapsed"></CaptureElement>
+        <ComboBox x:ConnectionId='4' x:Name="SceneControl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,100,100,0" Width="200"                                                 />
+        <Button x:ConnectionId='5' x:Name="RestartButton" Content="Restart" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,210,0" Width="90"                             />
+        <ToggleButton x:ConnectionId='6' x:Name="StartStopButton" Content="Start/Stop" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,100,0" Width="90"                                                                           IsChecked="True"/>
     </SwapChainPanel>
 </Page>
 

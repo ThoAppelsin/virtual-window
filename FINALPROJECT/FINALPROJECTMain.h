@@ -11,7 +11,7 @@ namespace FINALPROJECT
 	class FINALPROJECTMain : public DX::IDeviceNotify
 	{
 	public:
-		FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl);
+		FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl, Button^ restartButton, bool eyeTrackingEnabled);
 		~FINALPROJECTMain();
 		void CreateWindowSizeDependentResources();
 		void TrackingUpdate(float positionX) { m_pointerLocationX = positionX; }
@@ -19,6 +19,7 @@ namespace FINALPROJECT
 		void StopRenderLoop();
 		Concurrency::critical_section& GetCriticalSection() { return m_criticalSection; }
 		void ChangeScene(size_t index);
+		void ControlEyeTracking(bool enable);
 
 		// IDeviceNotify
 		virtual void OnDeviceLost();
@@ -44,5 +45,8 @@ namespace FINALPROJECT
 
 		// Track current input pointer position.
 		float m_pointerLocationX;
+
+		// EyeTracking states
+		bool m_eyeTrackingEnabled;
 	};
 }

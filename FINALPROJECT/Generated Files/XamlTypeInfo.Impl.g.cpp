@@ -11,8 +11,55 @@
 #include "XamlTypeInfo.g.h"
 
 
+// XamlMetaDataProvider
+namespace FINALPROJECT
+{
+    namespace FINALPROJECT_XamlTypeInfo
+    {
+        [Windows::Foundation::Metadata::WebHostHidden]
+        public ref class XamlMetaDataProvider sealed : public ::Windows::UI::Xaml::Markup::IXamlMetadataProvider
+        {
+        public:
+            [::Windows::Foundation::Metadata::DefaultOverload]
+            virtual ::Windows::UI::Xaml::Markup::IXamlType^ GetXamlType(::Windows::UI::Xaml::Interop::TypeName type);
+            virtual ::Windows::UI::Xaml::Markup::IXamlType^ GetXamlType(::Platform::String^ fullName);
+            virtual ::Platform::Array<::Windows::UI::Xaml::Markup::XmlnsDefinition>^ GetXmlnsDefinitions();
+            
+        private:
+            ::XamlTypeInfo::InfoProvider::XamlTypeInfoProvider^ _provider;
+            property ::XamlTypeInfo::InfoProvider::XamlTypeInfoProvider^ Provider
+            {
+                ::XamlTypeInfo::InfoProvider::XamlTypeInfoProvider^ get();
+            }
+        };
+    }
+}
 
-// XamlTypeInfoProvider
+[::Windows::Foundation::Metadata::DefaultOverload]
+::Windows::UI::Xaml::Markup::IXamlType^ ::FINALPROJECT::FINALPROJECT_XamlTypeInfo::XamlMetaDataProvider::GetXamlType(::Windows::UI::Xaml::Interop::TypeName type)
+{
+    return Provider->GetXamlTypeByType(type);
+}
+
+::Windows::UI::Xaml::Markup::IXamlType^ ::FINALPROJECT::FINALPROJECT_XamlTypeInfo::XamlMetaDataProvider::GetXamlType(Platform::String^ fullName)
+{
+    return Provider->GetXamlTypeByName(fullName);
+}
+
+Platform::Array<::Windows::UI::Xaml::Markup::XmlnsDefinition>^ ::FINALPROJECT::FINALPROJECT_XamlTypeInfo::XamlMetaDataProvider::GetXmlnsDefinitions()
+{
+    return ref new Platform::Array<::Windows::UI::Xaml::Markup::XmlnsDefinition>(0);
+}
+
+::XamlTypeInfo::InfoProvider::XamlTypeInfoProvider^ ::FINALPROJECT::FINALPROJECT_XamlTypeInfo::XamlMetaDataProvider::Provider::get()
+{
+    if (_provider == nullptr)
+    {
+        _provider = ref new XamlTypeInfo::InfoProvider::XamlTypeInfoProvider();
+    }
+    return _provider;
+}
+
 ::Windows::UI::Xaml::Markup::IXamlType^ ::XamlTypeInfo::InfoProvider::XamlTypeInfoProvider::GetXamlTypeByType(::Windows::UI::Xaml::Interop::TypeName type)
 {
     auto xamlType = GetXamlTypeByName(type.Name);
@@ -38,6 +85,7 @@
         return nullptr;
     }
 
+    auto lock = _xamlTypesCriticalSection.Lock();
     auto val = _xamlTypes.find(typeName);
     ::Windows::UI::Xaml::Markup::IXamlType^ xamlType = nullptr;
     if (val != _xamlTypes.end())
@@ -79,6 +127,7 @@
         return nullptr;
     }
 
+    auto lock = _xamlMembersCriticalSection.Lock();
     auto val = _xamlMembers.find(longMemberName);
     if (val != _xamlMembers.end())
     {
@@ -86,7 +135,6 @@
     }
 
     auto xamlMember = CreateXamlMember(longMemberName);
-
     if (xamlMember != nullptr)
     {
         _xamlMembers[longMemberName] = xamlMember;
@@ -437,7 +485,14 @@ void ::XamlTypeInfo::InfoProvider::XamlUserType::RunInitializer()
 
 ::Platform::Object^ ::XamlTypeInfo::InfoProvider::XamlUserType::CreateFromString(::Platform::String^ input)
 {
-    return FromStringConverter(this, input);
+    if (CreateFromStringMethod != nullptr)
+    {
+        return (*CreateFromStringMethod)(input);
+    }
+    else
+    {
+        return FromStringConverter(this, input);
+    }
 }
 
 void ::XamlTypeInfo::InfoProvider::XamlUserType::AddMemberName(::Platform::String^ shortName)

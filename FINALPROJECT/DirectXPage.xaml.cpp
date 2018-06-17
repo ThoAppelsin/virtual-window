@@ -86,8 +86,9 @@ DirectXPage::DirectXPage():
 	EyeTracker^ eyeTracker = ref new EyeTracker(PreviewControl);// , m_main);
 	eyeTracker->InitializeAsync();
 
-	m_main = std::unique_ptr<FINALPROJECTMain>(new FINALPROJECTMain(m_deviceResources, eyeTracker, SceneControl));
-	m_main->StartRenderLoop();
+	m_main = std::make_unique<FINALPROJECTMain>(m_deviceResources, eyeTracker, SceneControl, RestartButton, StartStopButton->IsChecked->Value);
+	//m_main = std::unique_ptr<FINALPROJECTMain>(new FINALPROJECTMain(m_deviceResources, eyeTracker, SceneControl, RestartButton, StartStopButton->IsChecked->Value));
+	//m_main->StartRenderLoop();
 }
 
 DirectXPage::~DirectXPage()
@@ -199,4 +200,22 @@ void DirectXPage::OnSwapChainPanelSizeChanged(Object^ sender, SizeChangedEventAr
 void FINALPROJECT::DirectXPage::SceneControl_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e)
 {
 	if (m_main)	m_main->ChangeScene(((ComboBox^)sender)->SelectedIndex);
+}
+
+
+void FINALPROJECT::DirectXPage::Restart_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	
+}
+
+
+void FINALPROJECT::DirectXPage::StartStop_Button_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	if (m_main)	m_main->ControlEyeTracking(true);
+}
+
+
+void FINALPROJECT::DirectXPage::StartStop_Button_Unchecked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	if (m_main)	m_main->ControlEyeTracking(false);
 }

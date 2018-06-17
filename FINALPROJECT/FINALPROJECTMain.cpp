@@ -8,22 +8,23 @@ using namespace Windows::System::Threading;
 using namespace Concurrency;
 
 // Loads and initializes application assets when the application is loaded.
-FINALPROJECTMain::FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl) :
+FINALPROJECTMain::FINALPROJECTMain(const std::shared_ptr<DX::DeviceResources>& deviceResources, EyeTracker^ eyeTracker, ComboBox^ sceneControl, Button^ restartButton, bool eyeTrackingEnabled) :
+	m_eyeTrackingEnabled(eyeTrackingEnabled),
 	m_deviceResources(deviceResources), m_pointerLocationX(0.0f)
 {
 	// Register to be notified if the Device is lost or recreated
 	m_deviceResources->RegisterDeviceNotify(this);
 
 	// TODO: Replace this with your app's content initialization.
-	m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources, eyeTracker, sceneControl));
+	m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources, eyeTracker, sceneControl, restartButton));
 
 	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
 	
-	m_timer.SetFixedTimeStep(true);
-	m_timer.SetTargetElapsedSeconds(1.0 / 40);
+	/*m_timer.SetFixedTimeStep(true);
+	m_timer.SetTargetElapsedSeconds(1.0 / 60);*/
 	
 }
 
@@ -72,21 +73,26 @@ void FINALPROJECTMain::StopRenderLoop()
 	m_renderLoopWorker->Cancel();
 }
 
-void FINALPROJECT::FINALPROJECTMain::ChangeScene(size_t index)
+void FINALPROJECTMain::ChangeScene(size_t index)
 {
 	if (m_sceneRenderer)	m_sceneRenderer->ChangeScene(index);
+}
+
+void FINALPROJECTMain::ControlEyeTracking(bool enable)
+{
+	m_eyeTrackingEnabled = enable;
 }
 
 // Updates the application state once per frame.
 void FINALPROJECTMain::Update() 
 {
 	ProcessInput();
-
+	
 	// Update scene objects.
 	m_timer.Tick([&]()
 	{
 		// TODO: Replace this with your app's content update functions.
-		m_sceneRenderer->Update(m_timer);
+		m_sceneRenderer->Update(m_timer, m_eyeTrackingEnabled);
 		//m_fpsTextRenderer->Update(m_timer);
 	});
 }

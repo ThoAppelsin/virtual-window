@@ -48,7 +48,7 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 	}
 #endif
 
-	if (m_directXPage == nullptr)
+	/*if (m_directXPage == nullptr)
 	{
 		m_directXPage = ref new DirectXPage();
 	}
@@ -56,7 +56,7 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 	if (e->PreviousExecutionState == ApplicationExecutionState::Terminated)
 	{
 		m_directXPage->LoadInternalState(ApplicationData::Current->LocalSettings->Values);
-	}
+	}*/
 
 	auto rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
 

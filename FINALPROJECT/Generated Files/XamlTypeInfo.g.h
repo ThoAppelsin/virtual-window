@@ -15,6 +15,44 @@ namespace XamlTypeInfo
     {
         ref class XamlTypeInfoProvider sealed
         {
+            struct CriticalSection
+            {
+                CriticalSection()
+                {
+                    InitializeCriticalSection(&criticalSection);
+                }
+
+                ~CriticalSection()
+                {
+                    DeleteCriticalSection(&criticalSection);
+                }
+
+                struct AutoLock
+                {
+                    AutoLock(LPCRITICAL_SECTION criticalSection)
+                        : pCriticalSection(criticalSection)
+                    {
+                        EnterCriticalSection(criticalSection);
+                    }
+
+                    ~AutoLock()
+                    {
+                        LeaveCriticalSection(pCriticalSection);
+                    }
+
+                private:
+                    LPCRITICAL_SECTION pCriticalSection{ nullptr };
+                };
+
+                AutoLock Lock()
+                {
+                    return AutoLock(&criticalSection);
+                }
+
+            private:
+                CRITICAL_SECTION criticalSection;
+            };
+
         public:
             ::Windows::UI::Xaml::Markup::IXamlType^ GetXamlTypeByName(::Platform::String^ typeName);
             ::Windows::UI::Xaml::Markup::IXamlType^ GetXamlTypeByType(::Windows::UI::Xaml::Interop::TypeName t);
@@ -22,7 +60,9 @@ namespace XamlTypeInfo
             void AddOtherProvider(::Windows::UI::Xaml::Markup::IXamlMetadataProvider^ otherProvider);
 
         private:
+            CriticalSection _xamlTypesCriticalSection;
             std::map<::Platform::String^, ::Platform::WeakReference> _xamlTypes;
+            CriticalSection _xamlMembersCriticalSection;
             std::map<::Platform::String^, ::Windows::UI::Xaml::Markup::IXamlMember^> _xamlMembers;
             ::Windows::UI::Xaml::Markup::IXamlType^ CreateXamlType(::Platform::String^ typeName);
             ::Windows::UI::Xaml::Markup::IXamlMember^ CreateXamlMember(::Platform::String^ longMemberName);
@@ -239,11 +279,13 @@ namespace XamlTypeInfo
             typedef ::Platform::Object^ (*ActivatorFn)();
             typedef void (*AddToCollectionFn)(::Platform::Object^ instance, ::Platform::Object^ item);
             typedef void (*AddToDictionaryFn)(::Platform::Object^ instance, ::Platform::Object^ key, ::Platform::Object^ item);
+            typedef ::Platform::Object^ (*CreateFromStringFn)(::Platform::String^);
             typedef ::Platform::Object^ (*StringConverterFn)(::XamlTypeInfo::InfoProvider::XamlUserType^ userType, ::Platform::String^ input);
 
             property ActivatorFn Activator;
             property AddToCollectionFn CollectionAdd;
             property AddToDictionaryFn DictionaryAdd;
+            property CreateFromStringFn CreateFromStringMethod;
             property ::Windows::UI::Xaml::Interop::TypeKind KindOfType;
             property StringConverterFn FromStringConverter;
 
@@ -348,4 +390,3 @@ namespace XamlTypeInfo
         };
     }
 }
-
